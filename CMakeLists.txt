@@ -31,7 +31,7 @@ add_library(SharedLibDecision SHARED ${PROJECT_SOURCE_DIR}/parallelSolution/deci
 
 if(UNIX AND NOT APPLE)
     find_package(Threads REQUIRED)
-    target_link_libraries(dz2 StaticLibDecision SharedLibDecision)
+    target_link_libraries(dz2 Threads::Threads StaticLibDecision SharedLibDecision)
 endif()
 
 
