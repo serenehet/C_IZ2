@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
-#include "decisionParallel.h"
+#include "../parallelSolution/decisionParallel.h"
 
 
 #define ERROR_CREATE_THREAD -11
@@ -59,7 +59,7 @@ Info giveMostPopularStrParallel(const char * const arr, size_t size) {
     size_t index = 0;
 
     for (i = 0; i < numberThreads; i++) {
-        args[i].arr = arr;
+        args[i].arr = (char *)arr;
         args[i].container = &container;
         args[i].start = index;
         size_t end = index + part;
@@ -86,5 +86,7 @@ Info giveMostPopularStrParallel(const char * const arr, size_t size) {
     free(threads);
     free(args);
     pthread_mutex_destroy(&mutex);
-    return giveInfoMostPopular(&container);
+    Info res = giveInfoMostPopular(&container);
+    freeContainer(&container);
+    return res;
 }

@@ -2,8 +2,8 @@
 // Created by Sergei Alexeev on 19.03.2020.
 //
 
-#ifndef C_IZ2_DECISION_H
-#define C_IZ2_DECISION_H
+#ifndef C_IZ2_DECISIONPARALLEL_H
+#define C_IZ2_DECISIONPARALLEL_H
 
 #include "../infoContainer/infoContainer.h"
 #include <math.h>

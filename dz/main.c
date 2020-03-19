@@ -3,23 +3,27 @@
 //каждый из которых выделяет в динамической памяти символьный массив размером 100 Мб
 //и подсчитывает количество серий повторяющихся символов разной длины,
 //после чего выводит представителя серии самой часто встречаемой длины.
+
+// считаю, что 1 символ не является повторением
 #include <stdio.h>
 #include <stdlib.h>
-#include "../infoContainer/infoContainer.h"
-#include "decisionParallel.h"
-#include "decisionConsistent.h"
+#include "../parallelSolution/decisionParallel.h"
+#include "../consistentSolution/decisionConsistent.h"
+
+
 #include <time.h>
-#include <string.h>
 
 char * getRandomStr(size_t n);
 void printRes(Info * popularInfo);
 
 int main() {
-    //последовательное решение
+
     size_t n = 1000;
     char * arr = getRandomStr(n);
     Info res;
-//    res = giveMostPopularStrConsistent(arr, n);
+    //последовательное решение
+    res = giveMostPopularStrConsistent(arr, n);
+    //паралельное решение
     res = giveMostPopularStrParallel(arr, n);
     printRes(&res);
     free(arr);

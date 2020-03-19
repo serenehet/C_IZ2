@@ -1,8 +1,9 @@
 cmake_minimum_required(VERSION 3.9)
 project(dz2 C)
 enable_language(C CXX)
-set(CMAKE_C_FLAGS  "-std=c99")
+set(CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} -std=c11 -Werror -Wall -Wpedantic -fPIC" )
 
+include_directories("${PROJECT_SOURCE_DIR}/infoContainer")
 include_directories("${PROJECT_SOURCE_DIR}/consistentSolution")
 include_directories("${PROJECT_SOURCE_DIR}/parallelSolution")
 include_directories("${PROJECT_SOURCE_DIR}/dz")
@@ -23,3 +24,15 @@ file(GLOB parallel
         "${PROJECT_SOURCE_DIR}/parallelSolution/*.h")
 
 add_executable(dz2 ${dz} ${container} ${consistent} ${parallel} )
+
+add_library(StaticLibDecision STATIC ${PROJECT_SOURCE_DIR}/consistentSolution/decisionConsistent.c)
+add_library(SharedLibDecision SHARED ${PROJECT_SOURCE_DIR}/parallelSolution/decisionParallel.c)
+
+
+if(UNIX AND NOT APPLE)
+    find_package(Threads REQUIRED)
+    target_link_libraries(dz2 StaticLibDecision SharedLibDecision)
+endif()
+
+
+
