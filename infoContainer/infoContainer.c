@@ -5,7 +5,7 @@
 #include "infoContainer.h"
 #include <stdlib.h>
 
-size_t delta = 2; // не храним информации о повторениях 0 или 1 раз;
+const size_t delta = 2; // не храним информации о повторениях 0 или 1 раз;
 
 InfoContainer createInfoContainer() {
     InfoContainer container;

@@ -6,9 +6,7 @@
 #define C_IZ2_DECISION_H
 
 #include "../infoContainer/infoContainer.h"
-#include <string.h>
 
-Info giveMostPopularStr(char * arr);
-void printRes(Info * popularInfo);
+Info giveMostPopularStrConsistent(const char * const arr, size_t size);
 
 #endif //C_IZ2_DECISION_H

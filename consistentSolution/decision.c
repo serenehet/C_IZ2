@@ -2,10 +2,10 @@
 // Created by Sergei Alexeev on 19.03.2020.
 //
 
-#include "decision.h"
+#include "../consistentSolution/decision.h"
 
-Info giveMostPopularStr(char * arr) {
-    if (strlen(arr) == 0) {
+Info giveMostPopularStrConsistent(const char * const arr, size_t size) {
+    if (size == 0) {
         Info error;
         error.number = 0;
         error.symbol = '\0';
@@ -13,7 +13,6 @@ Info giveMostPopularStr(char * arr) {
         return error;
     }
     InfoContainer container = createInfoContainer();
-    size_t size = strlen(arr);
     size_t n = 1;
     char temp = arr[0];
     for (size_t i = 1; i <= size; ++i) {
@@ -35,8 +34,3 @@ Info giveMostPopularStr(char * arr) {
     return res;
 }
 
-void printRes(Info * popularInfo) {
-    for(size_t i = 0; i < popularInfo->number; ++i) {
-        printf("%c", popularInfo->symbol);
-    }
-}
