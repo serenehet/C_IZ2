@@ -5,7 +5,7 @@
 #ifndef C_IZ2_DECISION_H
 #define C_IZ2_DECISION_H
 
-#include "../include/infoContainer.h"
+#include "../infoContainer/infoContainer.h"
 
 Info getMostPopularSequence(char * arr, size_t n);
 
