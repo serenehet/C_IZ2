@@ -54,7 +54,10 @@ Info giveMostPopularStrParallel(const char * const arr, size_t size) {
     int status_addr = 0;
     Args * args = (Args *)calloc(numberThreads, sizeof(Args));
 
-    size_t part = size / (numberThreads - 1);
+    size_t part = size;
+    if (numberThreads > 1) {
+        part = size / (numberThreads - 1);
+    }
     size_t index = 0;
 
     for (i = 0; i < numberThreads; i++) {
@@ -63,7 +66,7 @@ Info giveMostPopularStrParallel(const char * const arr, size_t size) {
         args[i].start = index;
         size_t end = index + part;
         index += part;
-        if (end > container.size - 1) { end = container.size - 1; };
+        if (end > size - 1) { end = size - 1; };
         args[i].end = end;
     }
 
