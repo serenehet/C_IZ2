@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
-#include "../parallelSolution/decision.h"
+#include "decisionParallel.h"
 
 
 #define ERROR_CREATE_THREAD -11
@@ -18,9 +18,10 @@ void * checkPart(void *args) {
     size_t end = arg->end;
     char * arr = arg->arr;
 
+    if (start == end) { return SUCCESS; }
     size_t n = 1;
     char temp = arr[0];
-    for (size_t i = start; i <= end; ++i) {
+    for (size_t i = start; i <=end; ++i) {
         if (arr[i] == temp) {
             ++n;
         } else {
@@ -47,11 +48,8 @@ Info giveMostPopularStrParallel(const char * const arr, size_t size) {
 
     InfoContainer container = createInfoContainer();
 
-
     pthread_t * threads = (pthread_t *)calloc(numberThreads, sizeof(pthread_t));
-    int status = 0;
-    int i = 0;
-    int status_addr = 0;
+    int status = 0, i = 0;
     Args * args = (Args *)calloc(numberThreads, sizeof(Args));
 
     size_t part = size;
@@ -79,15 +77,14 @@ Info giveMostPopularStrParallel(const char * const arr, size_t size) {
     }
 
     for (i = 0; i < numberThreads; i++) {
-        status = pthread_join(threads[i], (void**)&status_addr);
+        status = pthread_join(threads[i], NULL);
         if (status != SUCCESS) {
             printf("main error: can't join thread, status = %d\n", status);
             exit(ERROR_JOIN_THREAD);
         }
-        printf("joined with address %d\n", status_addr);
     }
-
+    free(threads);
+    free(args);
     pthread_mutex_destroy(&mutex);
-
     return giveInfoMostPopular(&container);
 }

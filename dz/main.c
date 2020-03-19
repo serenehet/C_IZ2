@@ -5,22 +5,24 @@
 //после чего выводит представителя серии самой часто встречаемой длины.
 #include <stdio.h>
 #include <stdlib.h>
-#include "../parallelSolution/decision.h"
-#include "../consistentSolution/decision.h"
+#include "../infoContainer/infoContainer.h"
+#include "decisionParallel.h"
+#include "decisionConsistent.h"
 #include <time.h>
 #include <string.h>
-#include <decision.h>
 
 char * getRandomStr(size_t n);
 void printRes(Info * popularInfo);
 
 int main() {
     //последовательное решение
-    size_t n = 10;
+    size_t n = 1000;
     char * arr = getRandomStr(n);
-//    Info res = giveMostPopularStrConsistent(arr, 10);
-    Info res = giveMostPopularStrParallel(arr, n);
+    Info res;
+//    res = giveMostPopularStrConsistent(arr, n);
+    res = giveMostPopularStrParallel(arr, n);
     printRes(&res);
+    free(arr);
     return 0;
 }
 
@@ -39,4 +41,5 @@ void printRes(Info * popularInfo) {
     for(size_t i = 0; i < popularInfo->number; ++i) {
         printf("%c", popularInfo->symbol);
     }
+    printf("\n");
 }

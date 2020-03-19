@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.9)
 project(dz2 C)
 enable_language(C CXX)
-set(CMAKE_C_FLAGS  "-std=c11")
+set(CMAKE_C_FLAGS  "-std=c99")
 
 include_directories("${PROJECT_SOURCE_DIR}/consistentSolution")
 include_directories("${PROJECT_SOURCE_DIR}/parallelSolution")

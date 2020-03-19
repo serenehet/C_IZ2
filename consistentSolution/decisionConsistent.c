@@ -2,7 +2,7 @@
 // Created by Sergei Alexeev on 19.03.2020.
 //
 
-#include "../consistentSolution/decision.h"
+#include "decisionConsistent.h"
 
 Info giveMostPopularStrConsistent(const char * const arr, size_t size) {
     if (size == 0) {
