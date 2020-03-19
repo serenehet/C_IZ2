@@ -47,4 +47,4 @@ script:
   - ctest --output-on-failure
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then valgrind --tool=memcheck --leak-check=yes valgrind ./dz2 ; fi
   - cd ..
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then cppcheck --enable=warning,performance,information ./dz ./infoContainer ./consistentSolution ./parallelSolution ./unitTests ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then cppcheck --enable=warning,performance,information ./dz ./infoContainer ./consistentSolution ./parallelSolution ./tests ; fi

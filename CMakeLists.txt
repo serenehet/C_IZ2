@@ -8,6 +8,20 @@ include_directories("${PROJECT_SOURCE_DIR}/consistentSolution")
 include_directories("${PROJECT_SOURCE_DIR}/parallelSolution")
 include_directories("${PROJECT_SOURCE_DIR}/dz")
 
+
+configure_file(CMakeLists.txt.in
+        googletest-download/CMakeLists.txt)
+execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/googletest-download )
+execute_process(COMMAND ${CMAKE_COMMAND} --build .
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/googletest-download )
+
+add_subdirectory(${CMAKE_BINARY_DIR}/googletest-src
+        ${CMAKE_BINARY_DIR}/googletest-build)
+
+enable_testing()
+add_subdirectory(tests)
+
 file(GLOB dz
         "${PROJECT_SOURCE_DIR}/dz/*.c")
 
