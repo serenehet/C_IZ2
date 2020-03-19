@@ -17,6 +17,7 @@ void * checkPart(void *args) {
     size_t start = arg->start;
     size_t end = arg->end;
     char * arr = arg->arr;
+    size_t size = arg->size;
 
     if (start == end) { return SUCCESS; }
     size_t n = 1;
@@ -25,20 +26,54 @@ void * checkPart(void *args) {
         if (arr[i] == temp) {
             ++n;
         } else {
-            pthread_mutex_lock(&mutex);
             Info * info = getElement(container, n);
             if (info != NULL) {
+                pthread_mutex_lock(&mutex);
                 info->number = n;
                 info->symbol = arr[i - 1];
                 info->counter += 1;
+                pthread_mutex_unlock(&mutex);
             }
-            pthread_mutex_unlock(&mutex);
             n = 1;
         }
         temp = arr[i];
     }
     //проверка граничных условий
+    if (end >= size - 1) { return SUCCESS;}
+    if (arr[end + 1] != arr[end]) { return SUCCESS; }
 
+    size_t j = end - 1;
+    size_t c1 = 0;
+    while ((j >= 0) && (arr[j] == arr[j + 1])) {
+        ++c1;
+        --j;
+    }
+    Info * info = getElement(container, c1);
+    if (info != NULL) {
+        pthread_mutex_lock(&mutex);
+        info->counter -= 1;
+        pthread_mutex_unlock(&mutex);
+    }
+
+    j = end + 1;
+    size_t c2 = 0;
+    while (((j + 1) < size) &&(arr[j] == arr[j + 1])) {
+        ++c2; ++j;
+    }
+    info = getElement(container, c1);
+    if (info != NULL) {
+        pthread_mutex_lock(&mutex);
+        --(info->counter);
+        pthread_mutex_unlock(&mutex);
+    }
+
+    info = getElement(container, c1 + c2);
+    if (info != NULL) {
+        pthread_mutex_lock(&mutex);
+        ++(info->counter);
+        pthread_mutex_unlock(&mutex);
+    }
+    // граничные усовия проверены)
     return SUCCESS;
 }
 
@@ -66,6 +101,7 @@ Info giveMostPopularStrParallel(const char * const arr, size_t size) {
         index += part;
         if (end > size - 1) { end = size - 1; };
         args[i].end = end;
+        args[i].size = size;
     }
 
     for (i = 0; i < numberThreads; i++) {

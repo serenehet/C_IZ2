@@ -9,24 +9,29 @@
 #include <stdlib.h>
 #include "../parallelSolution/decisionParallel.h"
 #include "../consistentSolution/decisionConsistent.h"
-
-
 #include <time.h>
+#include <string.h>
 
 char * getRandomStr(size_t n);
 void printRes(Info * popularInfo);
 
 int main() {
-
-    size_t n = 1000;
+    size_t n = 1024 * 1024 * 100; // 100мб
     char * arr = getRandomStr(n);
     Info res;
     //последовательное решение
+    clock_t t1 = clock();
     res = giveMostPopularStrConsistent(arr, n);
-    //паралельное решение
-    res = giveMostPopularStrParallel(arr, n);
+    clock_t t2 = clock();
+    printf("time consistent - %f\n", (double)(t2 - t1) / CLOCKS_PER_SEC);
     printRes(&res);
-    free(arr);
+    //паралельное решение
+    t1 = clock();
+    res = giveMostPopularStrParallel(arr, n);
+    t2 = clock();
+    printf("time parallel - %f\n", (double)(t2 - t1) / CLOCKS_PER_SEC);
+    printRes(&res);
+    //free(arr);
     return 0;
 }
 
