@@ -28,6 +28,7 @@ Info * getElement(InfoContainer * container, size_t index) {
 }
 
 Info giveInfoMostPopular(InfoContainer * container) {
+    if (container == NULL) { Info errorInfo = {'0', 0, 0}; return errorInfo; }
     if (container->size == 0) { Info errorInfo = {'0', 0, 0}; return errorInfo; }
     Info popular = container->arr[0];
     for(size_t i = 1; i < container->size; ++i) {

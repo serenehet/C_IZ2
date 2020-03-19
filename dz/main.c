@@ -31,7 +31,7 @@ int main() {
     t2 = clock();
     printf("time parallel - %f\n", (double)(t2 - t1) / CLOCKS_PER_SEC);
     printRes(&res);
-    //free(arr);
+    free(arr);
     return 0;
 }
 
