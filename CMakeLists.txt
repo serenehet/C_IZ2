@@ -30,6 +30,8 @@ add_library(SharedLibDecision SHARED ${PROJECT_SOURCE_DIR}/parallelSolution/deci
 
 
 if(UNIX AND NOT APPLE)
+    set(CMAKE_REQUIRED_LIBRARIES m)
+    target_link_libraries(${PROJECT_NAME} m)
     find_package(Threads REQUIRED)
     target_link_libraries(dz2 Threads::Threads StaticLibDecision SharedLibDecision)
 endif()
