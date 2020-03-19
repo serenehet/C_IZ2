@@ -10,7 +10,6 @@
 #include "../parallelSolution/decisionParallel.h"
 #include "../consistentSolution/decisionConsistent.h"
 #include <time.h>
-#include <string.h>
 
 char * getRandomStr(size_t n);
 void printRes(Info * popularInfo);

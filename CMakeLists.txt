@@ -20,7 +20,7 @@ add_subdirectory(${CMAKE_BINARY_DIR}/googletest-src
         ${CMAKE_BINARY_DIR}/googletest-build)
 
 enable_testing()
-add_subdirectory(tests)
+add_subdirectory(unitTests)
 
 file(GLOB dz
         "${PROJECT_SOURCE_DIR}/dz/*.c")

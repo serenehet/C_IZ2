@@ -78,6 +78,13 @@ void * checkPart(void *args) {
 }
 
 Info giveMostPopularStrParallel(const char * const arr, size_t size) {
+    if (size == 0) {
+        Info error;
+        error.number = 0;
+        error.symbol = '\0';
+        error.counter = 0;
+        return error;
+    }
     pthread_mutex_init(&mutex, NULL);
     size_t numberThreads = (size_t)log2((double)size) + 1;    // количество потоков - logn + 1
 
