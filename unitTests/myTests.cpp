@@ -24,15 +24,9 @@ TEST(testAll, test2) {
 
 
 TEST(testAll, test3) {
-    size_t n = 1024 * 1024 * 100;
-    srand(time(NULL));
-    char * arr = (char *)calloc(n + 1, sizeof(char));
-    arr[n] = '\0';
-    for(int i = 0; i < n; i++) {
-        arr[i] = (char)((rand() % 26) + 97);
-    }
-    size_t res1 = (giveMostPopularStrConsistent(arr, n)).number;
-    size_t res2 = (giveMostPopularStrParallel(arr, n)).number;
-    free(arr);
+    char * arr = (char *)("hgfdhgfdaaaabbbbccccddddkkkk\0");
+    size_t res1 = (giveMostPopularStrConsistent(arr, strlen(arr))).number;
+    size_t res2 = (giveMostPopularStrParallel(arr, strlen(arr))).number;
+    ASSERT_EQ(res1, 4);
     ASSERT_EQ(res1, res2);
 }

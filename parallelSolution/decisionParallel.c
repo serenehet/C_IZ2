@@ -4,7 +4,6 @@
 #include <unistd.h>
 #include "../parallelSolution/decisionParallel.h"
 
-
 #define ERROR_CREATE_THREAD -11
 #define ERROR_JOIN_THREAD   -12
 #define BAD_MESSAGE         -13
@@ -22,8 +21,8 @@ void * checkPart(void *args) {
 
     if (start >= end) { return SUCCESS; }
     size_t n = 1;
-    char temp = arr[0];
-    for (size_t i = start; i <=end; ++i) {
+    char temp = arr[start];
+    for (size_t i = start + 1; i <= end; ++i) {
         if (arr[i] == temp) {
             ++n;
         } else {
@@ -49,16 +48,12 @@ void * checkPart(void *args) {
         ++c1;
         --j;
     }
-
     pthread_mutex_lock(&mutex);
     Info * info = getElement(container, c1);
     if (info != NULL) {
-
         info->counter -= 1;
-
     }
     pthread_mutex_unlock(&mutex);
-
     j = end + 1;
     size_t c2 = 0;
     while (((j + 1) < size) &&(arr[j] == arr[j + 1])) {
@@ -68,7 +63,6 @@ void * checkPart(void *args) {
     pthread_mutex_lock(&mutex);
     info = getElement(container, c1);
     if (info != NULL) {
-
         --(info->counter);
     }
     info = getElement(container, c1 + c2);
@@ -76,7 +70,7 @@ void * checkPart(void *args) {
         ++(info->counter);
     }
     pthread_mutex_unlock(&mutex);
-//     граничные усовия проверены)
+    // граничные усовия проверены)
     return SUCCESS;
 }
 
