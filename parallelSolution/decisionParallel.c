@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include <unistd.h>
 #include "../parallelSolution/decisionParallel.h"
 
 
@@ -19,21 +20,21 @@ void * checkPart(void *args) {
     char * arr = arg->arr;
     size_t size = arg->size;
 
-    if (start == end) { return SUCCESS; }
+    if (start >= end) { return SUCCESS; }
     size_t n = 1;
     char temp = arr[0];
     for (size_t i = start; i <=end; ++i) {
         if (arr[i] == temp) {
             ++n;
         } else {
+            pthread_mutex_lock(&mutex);
             Info * info = getElement(container, n);
             if (info != NULL) {
-                pthread_mutex_lock(&mutex);
                 info->number = n;
                 info->symbol = arr[i - 1];
                 info->counter += 1;
-                pthread_mutex_unlock(&mutex);
             }
+            pthread_mutex_unlock(&mutex);
             n = 1;
         }
         temp = arr[i];
@@ -48,32 +49,34 @@ void * checkPart(void *args) {
         ++c1;
         --j;
     }
+
+    pthread_mutex_lock(&mutex);
     Info * info = getElement(container, c1);
     if (info != NULL) {
-        pthread_mutex_lock(&mutex);
+
         info->counter -= 1;
-        pthread_mutex_unlock(&mutex);
+
     }
+    pthread_mutex_unlock(&mutex);
 
     j = end + 1;
     size_t c2 = 0;
     while (((j + 1) < size) &&(arr[j] == arr[j + 1])) {
         ++c2; ++j;
     }
+
+    pthread_mutex_lock(&mutex);
     info = getElement(container, c1);
     if (info != NULL) {
-        pthread_mutex_lock(&mutex);
-        --(info->counter);
-        pthread_mutex_unlock(&mutex);
-    }
 
+        --(info->counter);
+    }
     info = getElement(container, c1 + c2);
     if (info != NULL) {
-        pthread_mutex_lock(&mutex);
         ++(info->counter);
-        pthread_mutex_unlock(&mutex);
     }
-    // граничные усовия проверены)
+    pthread_mutex_unlock(&mutex);
+//     граничные усовия проверены)
     return SUCCESS;
 }
 
@@ -87,7 +90,7 @@ Info giveMostPopularStrParallel(const char * const arr, size_t size) {
     }
     pthread_mutex_init(&mutex, NULL);
     size_t numberThreads = (size_t)log2((double)size) + 1;    // количество потоков - logn + 1
-
+//    if (size < numberThreads) { numberThreads = size; };
     InfoContainer container = createInfoContainer();
 
     pthread_t * threads = (pthread_t *)calloc(numberThreads, sizeof(pthread_t));
@@ -96,7 +99,7 @@ Info giveMostPopularStrParallel(const char * const arr, size_t size) {
 
     size_t part = size;
     if (numberThreads > 1) {
-        part = size / (numberThreads - 1);
+        part = (size / numberThreads) + 1;
     }
     size_t index = 0;
 
@@ -107,6 +110,7 @@ Info giveMostPopularStrParallel(const char * const arr, size_t size) {
         size_t end = index + part;
         index += part;
         if (end > size - 1) { end = size - 1; };
+        if (index > size - 1) {index = size - 1; };
         args[i].end = end;
         args[i].size = size;
     }

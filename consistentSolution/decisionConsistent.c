@@ -14,11 +14,9 @@ Info giveMostPopularStrConsistent(const char * const arr, size_t size) {
     }
     InfoContainer container = createInfoContainer();
     size_t n = 1;
-    char temp = arr[0];
-    for (size_t i = 1; i <= size; ++i) {
-        if (arr[i] == temp) {
-            ++n;
-        } else {
+    for (size_t i = 1; i <= (size - 1); ++i) {
+        if (arr[i] == arr[i - 1]) { ++n; }
+        else {
             Info * info = getElement(&container, n);
             if (info != NULL) {
                 info->number = n;
@@ -27,7 +25,6 @@ Info giveMostPopularStrConsistent(const char * const arr, size_t size) {
             }
             n = 1;
         }
-        temp = arr[i];
     }
     Info res = giveInfoMostPopular(&container);
     freeContainer(&container);

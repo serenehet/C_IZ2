@@ -10,6 +10,7 @@
 #include "../parallelSolution/decisionParallel.h"
 #include "../consistentSolution/decisionConsistent.h"
 #include <time.h>
+#include <string.h>
 
 char * getRandomStr(size_t n);
 void printRes(Info * popularInfo);
@@ -36,12 +37,12 @@ int main() {
 
 char * getRandomStr(size_t n) {
     srand(time(NULL));
-    char * kek = (char *)calloc(n + 1, sizeof(char));
-    kek[n] = '\0';
+    char * arr = (char *)calloc(n + 1, sizeof(char));
+    arr[n] = '\0';
     for(int i = 0; i < n; i++) {
-        kek[i] = (char)((rand() % 3) + 99);
+        arr[i] = (char)((rand() % 3) + 99);
     }
-    return kek;
+    return arr;
 }
 
 void printRes(Info * popularInfo) {
