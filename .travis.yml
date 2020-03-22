@@ -8,7 +8,6 @@ os:
 
 compiler:
   - gcc
-  - clang
 
 addons:
   apt:

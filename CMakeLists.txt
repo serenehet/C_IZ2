@@ -8,6 +8,7 @@ include_directories("${PROJECT_SOURCE_DIR}/consistentSolution")
 include_directories("${PROJECT_SOURCE_DIR}/parallelSolution")
 include_directories("${PROJECT_SOURCE_DIR}/dz")
 
+#gtests
 configure_file(CMakeLists.txt.in
         googletest-download/CMakeLists.txt)
 execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
