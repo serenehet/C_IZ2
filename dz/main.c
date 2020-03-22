@@ -10,28 +10,18 @@
 #include "../parallelSolution/decisionParallel.h"
 #include "../consistentSolution/decisionConsistent.h"
 #include <time.h>
-#include <string.h>
+#include <sys/time.h>
 
 char * getRandomStr(size_t n);
 void printRes(Info * popularInfo);
+void printTimeDz(size_t n);
 
 int main() {
-    size_t n = 1024 * 100;
-    char * arr = getRandomStr(n);
-    Info res;
-    //последовательное решение
-    clock_t t1 = clock();
-    res = giveMostPopularStrConsistent(arr, n);
-    clock_t t2 = clock();
-    printf("time consistent - %f\n", (double)(t2 - t1) / CLOCKS_PER_SEC);
-    printRes(&res);
-    //паралельное решение
-    t1 = clock();
-    res = giveMostPopularStrParallel(arr, n);
-    t2 = clock();
-    printf("time parallel - %f\n", (double)(t2 - t1) / CLOCKS_PER_SEC);
-    printRes(&res);
-    free(arr);
+    printTimeDz(100);
+    printTimeDz(1000);
+    printTimeDz(10000);
+    printTimeDz(100000);
+    printTimeDz(1000000);
     return 0;
 }
 
@@ -51,4 +41,24 @@ void printRes(Info * popularInfo) {
         printf("%c", popularInfo->symbol);
     }
     printf("\n");
+}
+
+void printTimeDz(size_t n) {
+    printf("---\n");
+    struct timeval stop, start;
+    char * arr = getRandomStr(n);
+    Info res;
+    //последовательное решение
+    double mkrSec = 1000000.0;
+    gettimeofday(&start, NULL);
+    res = giveMostPopularStrConsistent(arr, n);
+    gettimeofday(&stop, NULL);
+    printf("time consistent %zu byte - %f\n", n, (double)(stop.tv_usec - start.tv_usec) / mkrSec);
+    //паралельное решение
+    gettimeofday(&start, NULL);
+    res = giveMostPopularStrParallel(arr, n);
+    gettimeofday(&stop, NULL);
+    printf("time parallel %zu byte - %f\n", n, (double)(stop.tv_usec - start.tv_usec) / mkrSec);
+    free(arr);
+    printf("---\n");
 }

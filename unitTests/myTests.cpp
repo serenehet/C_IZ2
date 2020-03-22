@@ -15,6 +15,13 @@ TEST(testAll, test1) {
 }
 
 TEST(testAll, test2) {
+    char * arr = (char *)("abc");
+    size_t res1 = (giveMostPopularStrConsistent(arr, strlen(arr))).number;
+    size_t res2 = (giveMostPopularStrParallel(arr, strlen(arr))).number;
+    ASSERT_EQ(res1, res2);
+}
+
+TEST(testAll, test3) {
     char * arr = (char *)("abbccddeeuu");
     size_t res1 = (giveMostPopularStrConsistent(arr, strlen(arr))).number;
     size_t res2 = (giveMostPopularStrParallel(arr, strlen(arr))).number;
@@ -32,7 +39,7 @@ char * getStr(size_t n) {
     return arr;
 }
 
-TEST(testAll, test3) {
+TEST(testAll, test4) {
     srand(time(NULL));
     int n = 4900;
     char * arr = (char *)calloc(n, sizeof(char));
