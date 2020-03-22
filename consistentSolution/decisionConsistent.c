@@ -5,7 +5,7 @@
 #include "../consistentSolution/decisionConsistent.h"
 
 Info giveMostPopularStrConsistent(const char * const arr, size_t size) {
-    if (size == 0) {
+    if (size == 0 || arr == NULL) {
         Info error;
         error.number = 0;
         error.symbol = '\0';

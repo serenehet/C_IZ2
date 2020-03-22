@@ -10,7 +10,7 @@
 typedef struct Info {
     char symbol;
     size_t number;
-    size_t counter;
+    int counter; // int нужен, так как в логике решения могут произойти случаи, когда один поток вычест 1 по своей проверке
 } Info;
 
 typedef struct InfoContainer {

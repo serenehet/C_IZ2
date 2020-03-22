@@ -6,7 +6,6 @@
 
 #define ERROR_CREATE_THREAD -11
 #define ERROR_JOIN_THREAD   -12
-#define BAD_MESSAGE         -13
 #define SUCCESS               0
 
 pthread_mutex_t mutex;
@@ -39,8 +38,11 @@ void * checkPart(void *args) {
         temp = arr[i];
     }
     //проверка граничных условий
-    if (end >= size - 1) { return SUCCESS;}
-    if (arr[end + 1] != arr[end]) { return SUCCESS; }
+    // идея проверки такова - если последний элемент одной части не совпадает с первым следующей части, то всё норм
+    // в ином случае вычитаем 1 из статистики неправильно обработанные последовательности, а сумму их
+    // повторений добавляем в статистику ( надеюсь понятно =) )
+    // границы проверяет поток сам
+    if ((end >= size - 1) || (arr[end + 1] != arr[end])) { return SUCCESS;}
 
     size_t j = end - 1;
     size_t c1 = 0;
@@ -75,13 +77,8 @@ void * checkPart(void *args) {
 }
 
 Info giveMostPopularStrParallel(const char * const arr, size_t size) {
-    if (size == 0) {
-        Info error;
-        error.number = 0;
-        error.symbol = '\0';
-        error.counter = 0;
-        return error;
-    }
+    Info infoError = {0, 0, 0};
+    if (size == 0 || arr == NULL) { return infoError; }
     pthread_mutex_init(&mutex, NULL);
 
     size_t numberThreads = sysconf(_SC_NPROCESSORS_ONLN);
@@ -89,8 +86,10 @@ Info giveMostPopularStrParallel(const char * const arr, size_t size) {
     InfoContainer container = createInfoContainer();
 
     pthread_t * threads = (pthread_t *)calloc(numberThreads, sizeof(pthread_t));
+    if (threads == NULL) { return infoError; }
     int status = 0, i = 0;
     Args * args = (Args *)calloc(numberThreads, sizeof(Args));
+    if (args == NULL) { free(threads); return infoError; }
 
     size_t part = size;
     if (numberThreads > 1) {

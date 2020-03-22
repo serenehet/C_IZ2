@@ -15,7 +15,7 @@ InfoContainer createInfoContainer() {
 }
 
 Info * getElement(InfoContainer * container, size_t index) {
-    if (index < 2) { return NULL; }
+    if (container == NULL || index < 2) { return NULL; }
     if ((index - delta + 1) > container->size) {
         Info * temp = container->arr;
         Info * key = (Info *)realloc(container->arr, (index - delta + 1) * sizeof(Info));
@@ -28,8 +28,7 @@ Info * getElement(InfoContainer * container, size_t index) {
 }
 
 Info giveInfoMostPopular(InfoContainer * container) {
-    if (container == NULL) { Info errorInfo = {'0', 0, 0}; return errorInfo; }
-    if (container->size == 0) { Info errorInfo = {'0', 0, 0}; return errorInfo; }
+    if (container == NULL || container->size == 0) { Info errorInfo = {'0', 0, 0}; return errorInfo; }
     Info popular = container->arr[0];
     for(size_t i = 1; i < container->size; ++i) {
         if (container->arr[i].counter > popular.counter) {
@@ -39,6 +38,7 @@ Info giveInfoMostPopular(InfoContainer * container) {
     return popular;
 }
 void freeContainer(InfoContainer * container) {
+    if (container == NULL) { return; }
     free(container->arr);
     container->size = 0;
 }

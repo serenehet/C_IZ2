@@ -1,9 +1,12 @@
-include_directories("${PROJECT_SOURCE_DIR}/infoContainer")
-include_directories("${PROJECT_SOURCE_DIR}/consistentSolution")
+include_directories("${PROJECT_SOURCE_DIR}/dz")
 include_directories("${PROJECT_SOURCE_DIR}/parallelSolution")
+include_directories("${PROJECT_SOURCE_DIR}/consistentSolution")
 
-file(GLOB sources "${PROJECT_SOURCE_DIR}/*/*.c"
-                "${PROJECT_SOURCE_DIR}/*/*.h")
+file(GLOB sources
+        "${PROJECT_SOURCE_DIR}/*/*.c"
+        "${PROJECT_SOURCE_DIR}/*/*.cpp"
+        "${PROJECT_SOURCE_DIR}/*/*.h")
+
 list(REMOVE_ITEM sources "${PROJECT_SOURCE_DIR}/dz/main.c")
 
 file(GLOB tests "${PROJECT_SOURCE_DIR}/unitTests/*.cpp")
