@@ -86,10 +86,18 @@ Info giveMostPopularStrParallel(const char * const arr, size_t size) {
     InfoContainer container = createInfoContainer();
 
     pthread_t * threads = (pthread_t *)calloc(numberThreads, sizeof(pthread_t));
-    if (threads == NULL) { return infoError; }
+    if (threads == NULL) {
+        pthread_mutex_destroy(&mutex);
+        freeContainer(&container);
+        return infoError;
+    }
     int status = 0, i = 0;
     Args * args = (Args *)calloc(numberThreads, sizeof(Args));
-    if (args == NULL) { free(threads); return infoError; }
+    if (args == NULL) { free(threads);
+        pthread_mutex_destroy(&mutex);
+        freeContainer(&container);
+        return infoError;
+    }
 
     size_t part = size;
     if (numberThreads > 1) {

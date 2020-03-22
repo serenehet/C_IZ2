@@ -22,15 +22,6 @@ TEST(testAll, test2) {
     ASSERT_EQ(res1, res2);
 }
 
-
-TEST(testAll, test3) {
-    char * arr = (char *)("hgfdhgfdaaaabbbbccccddddkkkk\0");
-    size_t res1 = (giveMostPopularStrConsistent(arr, strlen(arr))).number;
-    size_t res2 = (giveMostPopularStrParallel(arr, strlen(arr))).number;
-    ASSERT_EQ(res1, 4);
-    ASSERT_EQ(res1, res2);
-}
-
 char * getStr(size_t n) {
     srand(time(NULL));
     char * arr = (char *)calloc(n + 1, sizeof(char));
@@ -41,7 +32,7 @@ char * getStr(size_t n) {
     return arr;
 }
 
-TEST(testAll, test4) {
+TEST(testAll, test3) {
     srand(time(NULL));
     int n = 4900;
     char * arr = (char *)calloc(n, sizeof(char));
