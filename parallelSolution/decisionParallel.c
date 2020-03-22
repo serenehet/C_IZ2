@@ -83,8 +83,9 @@ Info giveMostPopularStrParallel(const char * const arr, size_t size) {
         return error;
     }
     pthread_mutex_init(&mutex, NULL);
-    size_t numberThreads = (size_t)log2((double)size) + 1;    // количество потоков - logn + 1
-//    if (size < numberThreads) { numberThreads = size; };
+
+    size_t numberThreads = sysconf(_SC_NPROCESSORS_ONLN);
+
     InfoContainer container = createInfoContainer();
 
     pthread_t * threads = (pthread_t *)calloc(numberThreads, sizeof(pthread_t));
