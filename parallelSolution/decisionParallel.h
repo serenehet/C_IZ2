@@ -6,8 +6,6 @@
 #define C_IZ2_DECISIONPARALLEL_H
 
 #include "../infoContainer/infoContainer.h"
-#include <math.h>
-
 
 typedef struct Args {
     InfoContainer * container;

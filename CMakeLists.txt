@@ -34,8 +34,6 @@ add_library(SharedLibDecision SHARED
         ${PROJECT_SOURCE_DIR}/infoContainer/infoContainer.c)
 
 if(UNIX AND NOT APPLE)
-    set(CMAKE_REQUIRED_LIBRARIES m)
-    target_link_libraries(${PROJECT_NAME} m)
     find_package(Threads REQUIRED)
     target_link_libraries(${PROJECT_NAME} Threads::Threads)
 endif()

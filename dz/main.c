@@ -16,7 +16,7 @@ char * getRandomStr(size_t n);
 void printRes(Info * popularInfo);
 
 int main() {
-    size_t n = 1024 * 1024 * 100; // 100мб
+    size_t n = 1024 * 100;
     char * arr = getRandomStr(n);
     Info res;
     //последовательное решение
