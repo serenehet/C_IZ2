@@ -47,16 +47,15 @@ void printTimeDz(size_t n) {
     printf("---\n");
     struct timeval stop, start;
     char * arr = getRandomStr(n);
-    Info res;
     //последовательное решение
     double mkrSec = 1000000.0;
     gettimeofday(&start, NULL);
-    res = giveMostPopularStrConsistent(arr, n);
+    giveMostPopularStrConsistent(arr, n);
     gettimeofday(&stop, NULL);
     printf("time consistent %zu byte - %f\n", n, (double)(stop.tv_usec - start.tv_usec) / mkrSec);
     //паралельное решение
     gettimeofday(&start, NULL);
-    res = giveMostPopularStrParallel(arr, n);
+    giveMostPopularStrParallel(arr, n);
     gettimeofday(&stop, NULL);
     printf("time parallel %zu byte - %f\n", n, (double)(stop.tv_usec - start.tv_usec) / mkrSec);
     free(arr);
