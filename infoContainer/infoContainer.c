@@ -20,9 +20,15 @@ Info * getElement(InfoContainer * container, size_t index) {
         Info * temp = container->arr;
         Info * key = (Info *)realloc(container->arr, (index - delta + 1) * sizeof(Info));
         if (key == NULL) { container->arr = temp; return NULL; }
+        size_t oldSize = container->size;
         container->size = (index - delta + 1);
         container->arr = key;
         container->arr[index - delta].number = index;
+        for(size_t i = oldSize; i < container->size; ++i) {
+            container->arr[i].number = delta + i;
+            container->arr[i].counter = 0;
+            container->arr[i].symbol = '0';
+        }
     }
     return &(container->arr[index - delta]);
 }
