@@ -8,21 +8,21 @@ extern "C" {
 }
 
 TEST(testAll, test1) {
-    char * arr = ("a");
+    const char * arr = ("a");
     size_t res1 = (giveMostPopularStrConsistent(arr, strlen(arr))).number;
     size_t res2 = (giveMostPopularStrParallel(arr, strlen(arr))).number;
     ASSERT_EQ(res1, res2);
 }
 
 TEST(testAll, test2) {
-    char * arr = ("abc");
+    const char * arr = ("abc");
     size_t res1 = (giveMostPopularStrConsistent(arr, strlen(arr))).number;
     size_t res2 = (giveMostPopularStrParallel(arr, strlen(arr))).number;
     ASSERT_EQ(res1, res2);
 }
 
 TEST(testAll, test3) {
-    char * arr = ("abbccddeeuu");
+    const char * arr = ("abbccddeeuu");
     size_t res1 = (giveMostPopularStrConsistent(arr, strlen(arr))).number;
     size_t res2 = (giveMostPopularStrParallel(arr, strlen(arr))).number;
     ASSERT_EQ(res1, 2);
