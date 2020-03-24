@@ -7,6 +7,7 @@
 #define ERROR_CREATE_THREAD -11
 #define ERROR_JOIN_THREAD   -12
 #define SUCCESS               0
+#define MIN_THREADS           2
 
 pthread_mutex_t mutex;
 
@@ -103,7 +104,8 @@ Info giveMostPopularStrParallel(const char * const arr, size_t size) {
     if (size == 0 || arr == NULL) { return infoError; }
     pthread_mutex_init(&mutex, NULL);
 
-    size_t numberThreads = 4;//sysconf(_SC_NPROCESSORS_ONLN);
+    size_t numberThreads = sysconf(_SC_NPROCESSORS_ONLN);
+    if (numberThreads < MIN_THREADS) { numberThreads = MIN_THREADS; }
 
     InfoContainer container = createInfoContainer();
 
