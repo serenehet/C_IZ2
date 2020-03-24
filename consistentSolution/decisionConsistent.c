@@ -26,6 +26,14 @@ Info giveMostPopularStrConsistent(const char * const arr, size_t size) {
             n = 1;
         }
     }
+    if (container.size == 0 && n > 1) {
+        Info * info = getElement(&container, n);
+        if (info != NULL) {
+            info->number = n;
+            info->symbol = arr[size - 1];
+            info->counter += 1;
+        }
+    }
     Info res = giveInfoMostPopular(&container);
     freeContainer(&container);
     return res;

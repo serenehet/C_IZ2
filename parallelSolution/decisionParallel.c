@@ -10,6 +10,16 @@
 
 pthread_mutex_t mutex;
 
+typedef struct Args {
+    InfoContainer * container;
+    char * arr;
+    size_t start;
+    size_t end;
+    size_t size;
+} Args;
+
+extern size_t delta;
+
 void * checkPart(void *args) {
     Args * arg = (Args *)args;
     InfoContainer * container = arg->container;
@@ -36,6 +46,17 @@ void * checkPart(void *args) {
             n = 1;
         }
         temp = arr[i];
+    }
+
+    if (container->size == 0 && n > 1) {
+        pthread_mutex_lock(&mutex);
+        Info * info = getElement(container, n);
+        if (info != NULL) {
+            info->number = n;
+            info->symbol = arr[size - 1];
+            info->counter += 1;
+        }
+        pthread_mutex_unlock(&mutex);
     }
     //проверка граничных условий
     // идея проверки такова - если последний элемент одной части не совпадает с первым следующей части, то всё норм
@@ -67,10 +88,11 @@ void * checkPart(void *args) {
     if (info != NULL) {
         --(info->counter);
     }
-    info = getElement(container, c1 + c2);
+    info = getElement(container, c1 + c2 + delta);
     if (info != NULL) {
         ++(info->counter);
     }
+
     pthread_mutex_unlock(&mutex);
     // граничные усовия проверены)
     return SUCCESS;
