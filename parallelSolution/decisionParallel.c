@@ -103,7 +103,7 @@ Info giveMostPopularStrParallel(const char * const arr, size_t size) {
     if (size == 0 || arr == NULL) { return infoError; }
     pthread_mutex_init(&mutex, NULL);
 
-    size_t numberThreads = sysconf(_SC_NPROCESSORS_ONLN);
+    size_t numberThreads = 4;//sysconf(_SC_NPROCESSORS_ONLN);
 
     InfoContainer container = createInfoContainer();
 
