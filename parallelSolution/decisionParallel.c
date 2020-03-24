@@ -7,7 +7,7 @@
 #define ERROR_CREATE_THREAD -11
 #define ERROR_JOIN_THREAD   -12
 #define SUCCESS               0
-#define MIN_THREADS           2
+#define MIN_THREADS           4
 
 pthread_mutex_t mutex;
 
