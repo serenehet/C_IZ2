@@ -8,21 +8,21 @@ extern "C" {
 }
 
 TEST(testAll, test1) {
-    const char * arr = ("a");
+    const char * arr = "a";
     size_t res1 = (giveMostPopularStrConsistent(arr, strlen(arr))).number;
     size_t res2 = (giveMostPopularStrParallel(arr, strlen(arr))).number;
     ASSERT_EQ(res1, res2);
 }
 
 TEST(testAll, test2) {
-    const char * arr = ("abc");
+    const char * arr = "abc";
     size_t res1 = (giveMostPopularStrConsistent(arr, strlen(arr))).number;
     size_t res2 = (giveMostPopularStrParallel(arr, strlen(arr))).number;
     ASSERT_EQ(res1, res2);
 }
 
 TEST(testAll, test3) {
-    const char * arr = ("abbccddeeuu");
+    const char * arr = "abbccddeeuu";
     size_t res1 = (giveMostPopularStrConsistent(arr, strlen(arr))).number;
     size_t res2 = (giveMostPopularStrParallel(arr, strlen(arr))).number;
     ASSERT_EQ(res1, 2);
@@ -62,6 +62,20 @@ TEST(testAll, test4) {
 
 TEST(testAll, test5) {
     srand(time(NULL));
+    int n = 500;
+    char * arr = (char *)calloc(n, sizeof(char));
+    for(int i = 0; i < n; ++i) {
+    arr[i] = 't';
+    }
+    size_t res1 = (giveMostPopularStrConsistent(arr, n)).number;
+    size_t res2 = (giveMostPopularStrParallel(arr, n)).number;
+    free(arr);
+    ASSERT_EQ(res1, n);
+    ASSERT_EQ(res1, res2);
+}
+
+TEST(testAll, test6) {
+    srand(time(NULL));
     int n = 50000;
     char * arr = (char *)calloc(n, sizeof(char));
     for(int i = 0; i < n; ++i) {
@@ -73,5 +87,3 @@ TEST(testAll, test5) {
     ASSERT_EQ(res1, n);
     ASSERT_EQ(res1, res2);
 }
-
-

@@ -17,7 +17,6 @@ add_subdirectory(${CMAKE_BINARY_DIR}/googletest-src
 enable_testing()
 add_subdirectory(unitTests)
 
-
 set(CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} -std=c11 -Werror -Wall -Wpedantic -fPIC" )
 
 include_directories("${PROJECT_SOURCE_DIR}/dz")
